@@ -103,7 +103,7 @@ def process_log_data(spark, input_data, output_data):
     users_table = spark.sql(users_query)
     
     # write users table to parquet files
-    artists_table.write.partitionBy("level").parquet(path = output_data + "/users.parquet", mode = "overwrite")
+    users_table.write.partitionBy("level").parquet(path = output_data + "/users.parquet", mode = "overwrite")
 
     # create timestamp column from original timestamp column
     get_timestamp = udf()

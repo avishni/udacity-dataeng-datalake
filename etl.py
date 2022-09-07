@@ -44,10 +44,13 @@ def process_song_data(spark, input_data, output_data):
     - input_data - path for the source files 
     - output_data - path to write the output
     """
-    print(output_data)
+    print("input data : {}".format(input_data))
+    print("outputdata : {}".format(output_data))
     
     # get filepath to song data file
     song_data = input_data + 'song_data/*/*/*'
+    
+    print("song_data : {}".format(song_data))
     
     # read song data file
     df = spark.read.json(song_data)
@@ -80,14 +83,18 @@ def process_log_data(spark, input_data, output_data):
     - input_data - path for the source files 
     - output_data - path to write the output
     """
-    print(output_data)
+    print("input data : {}".format(input_data))
+    print("output data : {}".format(output_data))
     
     # get filepath to log data file
-    log_data = input_data + 'log_data/*/*/*'
-
+    #log_data = input_data + 'log_data/*/*/*'
+    log_data = input_data + 'log_data/*/
+    
     # read log data file
     df = spark.read.json(log_data)
     df.createOrReplaceTempView("log_data")
+    
+    print("log_data : {}".format(log_data))
     
     # filter by actions for song plays
     df = spark.sql(log_filter_query)

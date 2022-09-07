@@ -2,7 +2,7 @@ import configparser
 import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import udf, col
-from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear, date_format
+from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear, weekday,  date_format
 from pyspark.sql.types import TimestampType, DateType
 from datetime import datetime as dt
 
@@ -122,7 +122,7 @@ def process_log_data(spark, input_data, output_data):
     time_table = time_table.withColumn('week', weekofyear('start_time'))
     time_table = time_table.withColumn('month', month('start_time'))
     time_table = time_table.withColumn('year', year('start_time'))
-    #time_table = time_table.withColumn('weekday', dayofweek('start_time'))
+    time_table = time_table.withColumn('weekday', dayofweek('start_time'))
     
     # write time table to parquet files partitioned by year and month
     time_table.write.partitionBy("year", "month").parquet(path = output_data + "/time.parquet", mode = "overwrite")

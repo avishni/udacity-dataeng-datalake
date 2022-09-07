@@ -88,8 +88,8 @@ def process_log_data(spark, input_data, output_data):
     print("output data : {}".format(output_data))
     
     # get filepath to log data file
-    #log_data = input_data + 'log_data/*/*/*'
-    log_data = input_data + 'log-data/'
+    
+    log_data = input_data + 'log_data/*/*'
     
     # read log data file
     df = spark.read.json(log_data)
@@ -134,13 +134,21 @@ def process_log_data(spark, input_data, output_data):
     songplay_table.write.parquet(path = output_data + "/songplay.parquet", mode = "overwrite")
 
 def main():
+    
+    print("starting... ({})".format(dt.now()))
+     
     spark = create_spark_session()
-    #input_data = "s3a://udacity-dend/"
+    input_data = "s3a://udacity-dend/"
+    
+    ### uncomment the next line to run on the small demo dataset 
     input_data = "data/"
+
     output_data = "s3a://avishni-udacity-dend/output"
     
     process_song_data(spark, input_data, output_data)    
     process_log_data(spark, input_data, output_data)
-
+    
+    print("Done. ({})".format(dt.now()))
+    
 if __name__ == "__main__":
     main()
